@@ -10,8 +10,8 @@
 
 
 
-path = '/Users/charalamposp/Desktop/1.jpg'
-from tkinter import *
+path = ''
+
 import tkinter as tk
 from tkinter import *
 from PIL import ImageTk, Image
@@ -441,47 +441,3 @@ win1.mainloop()
 
 
 
-##
-
-
-path = '/Users/charalamposp/Desktop/marg/1.jpg'
-from tkinter import *
-import tkinter as tk
-from tkinter import *
-from PIL import ImageTk, Image
-from tkinter import filedialog, ttk
-from tkinter import messagebox
-import os
-import cv2
-import numpy as np
-global root
-
-def show_image(image):
-    cv2.imshow('image',image)
-    c = cv2.waitKey()
-    cv2.destroyAllWindows()
-    cv2.waitKey(1)
-    if c >= 0 :
-        return -1
-    else:
-        return 0
-imgc = Image.open(path)
-
-imgcv = np.array(imgc)
-show_image(imgcv)
-imgcv = imgcv[:, :, ::-1].copy()  # Convert RGB to BGR
-hsv = cv2.cvtColor(imgcv.copy(), cv2.COLOR_BGR2HSV)  # Convert to HSV
-mask2 = cv2.inRange(hsv.copy(), (100, 0, 0), (180, 255, 255))
-kernel = np.ones((2, 2), np.uint8)
-mask2 = cv2.morphologyEx(mask2, cv2.MORPH_CLOSE, kernel)
-mask2 = cv2.morphologyEx(mask2, cv2.MORPH_OPEN, kernel)
-show_image(mask2)
-res = cv2.bitwise_or(imgcv, imgcv, mask=mask2)
-res = cv2.cvtColor(res, cv2.COLOR_BGR2RGB)
-# res = Image.fromarray(res)
-# show_image(res)
-print('percentage = ',100*np.count_nonzero(mask2==255)/mask2.size,' %')
-
-
-
-##
